@@ -1,0 +1,118 @@
+.container {
+  height: 100vh;
+}
+
+.done {
+  background: #C4D7E0;
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.focus-style {
+  margin: 0rem;
+  padding: 0.3rem  !important;
+  border: 0.2rem solid #86C8BC !important;
+}
+
+input:focus {
+  outline: none;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 5px;
+    margin-bottom: 1rem;
+}
+
+.task i {
+    font-size: 0.8rem;
+}
+
+.task input {
+  padding: 0.45rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 18rem;
+}
+
+.task .todo-item {
+    width: 15rem;
+}
+
+.task input:hover {
+    background-color: #EAEAEA;
+}
+
+.task button {
+    line-height: 0;
+    margin-left: 0.5rem;
+    padding: 0.8rem;
+    border: none;
+    cursor: pointer;
+}
+
+.task button:hover {
+  background-color: #C4D7E0;
+  border-radius: 0.5rem;
+}
+
+.option > button {
+  width: 7rem;
+}
+
+.option > button:focus, .option button.active{
+  border: none;
+  background-color: #86C8BC;
+}
+
+.all-btn > button {
+  width: 11rem;
+}
+
+.task-input {
+    padding: 0.25rem 0.7rem;
+    width: 19.5rem;
+}
+.add-btn {
+    background-color: #86C8BC;
+    color: #fff;
+    font-weight: 900;
+}
+.task-input:focus, .add-btn {
+    border: 0.2rem solid #86C8BC;
+}
+
+li {
+list-style: none;
+}
+
+.active {
+background-color: lightgray;
+}
+
+input[type="checkbox"] {
+    height: 20px;
+     width: 20px !important;
+}
+
+button {
+    border-radius: 0 !important;
+}
+
+#todoList {
+    max-height: 260px;
+    overflow: auto;
+}
+
+::-webkit-scrollbar {
+  background-color: #86C8BC;
+  width: 4px;
+}
+
+
+
+
+

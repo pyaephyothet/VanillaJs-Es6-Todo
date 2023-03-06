@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>todo-js-bootstrap</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container d-flex flex-column align-items-center justify-content-center">
+    <div class="form p-5 border border-secondary">
+      <h1>todo</h1>
+      <form class="mt-3 d-flex align-items-center justify-content-between">
+        <input type="text" id="todoInput" placeholder="Add todo..." class="task-input">
+        <button type="submit" id="addTodoBtn" class="add-btn fs-5"><i class="bi bi-plus-lg"></i></button>
+      </form>
+
+      <div class="option d-flex mt-3">
+        <button id="allFilterBtn" class="btn btn-outline-secondary me-3 all active">All</button>
+        <button id="activeFilterBtn" class="btn btn-outline-secondary me-3">Active</button>
+        <button id="completedFilterBtn" class="btn btn-outline-secondary">Completed</button>
+      </div>
+      <ul id="todoList" class="ps-0 mt-4"></ul>
+      <span id="activeCount"></span>
+      <div class="all-btn d-flex mt-3">
+        <button id="checkAllBtn" class=" check-all btn btn-outline-secondary me-3">Check All</button>
+        <button id="clearCompletedBtn" class="delete-all btn btn-outline-secondary">Clear Completed</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
