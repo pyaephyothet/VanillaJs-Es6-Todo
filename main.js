@@ -1,4 +1,4 @@
-// Select DOM elements
+
 const todoInput = document.querySelector('#todoInput');
 const addTodoBtn = document.querySelector('#addTodoBtn');
 const todoList = document.querySelector('#todoList');
@@ -7,7 +7,6 @@ const activeFilterBtn = document.querySelector('#activeFilterBtn');
 const completedFilterBtn = document.querySelector('#completedFilterBtn');
 const checkAllBtn = document.querySelector('#checkAllBtn');
 const clearCompletedBtn = document.querySelector('#clearCompletedBtn');
-
 
 addTodoBtn.addEventListener('click', e => {
     e.preventDefault();
@@ -35,7 +34,6 @@ completedFilterBtn.addEventListener('click', () => {
     updateTodos();
 });
 
-
 checkAllBtn.addEventListener('click', () => {
     if (checkAllBtn.innerText.toLowerCase() == "check all") {
         checkAllBtn.innerText = "Unheck All";
@@ -55,7 +53,13 @@ clearCompletedBtn.addEventListener('click', () => {
 
 let todos = [];
 
-// Add todo function
+// Load todos from local storage
+if (localStorage.getItem('todos')) {
+    todos = JSON.parse(localStorage.getItem('todos'));
+    updateTodos();
+}
+
+
 function addTodo() {
     if (todoInput.value !== '') {
         const todo = {
@@ -66,15 +70,16 @@ function addTodo() {
         todos.push(todo);
         updateTodos();
         todoInput.value = '';
+        saveTodos();
     }
 }
 
-// update todos function
+
 function updateTodos() {
 
     todoList.innerHTML = '';
 
-    // Filter todos based on filter button clicked
+
     const filter = getFilter();
     const filteredTodos = todos.filter(todo => {
         if (filter === 'all') {
@@ -86,7 +91,7 @@ function updateTodos() {
         }
     });
 
-    // update each todo
+
     filteredTodos.forEach(todo => {
         const li = document.createElement('li');
         const checkbox = document.createElement('input');
@@ -100,6 +105,19 @@ function updateTodos() {
         span.type = 'text';
         span.readOnly = 'readonly';
         span.value = todo.text;
+        span.addEventListener('dblclick', function () {
+            span.removeAttribute("readonly");
+            span.classList.add('focus-style');
+            span.focus();
+
+            span.addEventListener("change", function () {
+                let value = span.value;
+                edit(value, todo.id);
+                span.setAttribute('readonly', 'readonly');
+                span.classList.remove('focus-style');
+
+            });
+        });
         const deleteBtn = document.createElement('button');
         deleteBtn.innerHTML = `<i class="bi bi-trash3"></i>`;
         deleteBtn.addEventListener('click', () => {
@@ -113,36 +131,38 @@ function updateTodos() {
         li.appendChild(deleteBtn);
         todoList.appendChild(li);
 
-        //edit
-        task_input_el = document.querySelectorAll('.task .todo-item');
-        task_input_el.forEach(item => {
-            item.addEventListener('dblclick', function () {
-                item.removeAttribute("readonly");
-                item.classList.add('focus-style');
-                item.focus();
-                item.addEventListener("blur", function () {
-                    item.setAttribute('readonly', 'readonly');
-                    item.classList.remove('focus-style');
-                });
-            });
-        })
+        // Save todos to local storage
+        saveTodos();
+
     });
 
-    //active count
+    function edit(value, id) {
+        todos = todos.map(todo => {
+            if (todo.id === id) {
+                return {
+                    ...todo,
+                    text: value
+                };
+
+            } else {
+                return todo;
+            }
+        });
+        updateTodos();
+    }
+
     const activeCount = getActiveCount();
 
     const activeCountSpan = document.querySelector('#activeCount');
     activeCountSpan.textContent = `${activeCount} item${activeCount !== 1 ? 's' : ''} left`;
 
 
-    // Enable/disable check all button
     if (todos.length > 0) {
         checkAllBtn.disabled = false;
     } else {
         checkAllBtn.disabled = true;
     }
 
-    // Enable/disable clear completed button
     const completedTodos = todos.filter(todo => todo.completed);
     if (completedTodos.length > 0) {
         clearCompletedBtn.disabled = false;
@@ -162,7 +182,7 @@ function getFilter() {
     }
 }
 
-// Toggle todo completed function
+
 function toggleTodoCompleted(id) {
 
     todos = todos.map(todo => {
@@ -183,6 +203,7 @@ function toggleTodoCompleted(id) {
 function deleteTodoById(id) {
     todos = todos.filter(todo => todo.id !== id);
     updateTodos();
+    saveTodos();
 }
 
 
@@ -201,14 +222,17 @@ function checkAll() {
 function clearCompleted() {
     todos = todos.filter(todo => !todo.completed);
     updateTodos();
+    saveTodos();
 }
 
 function getActiveCount() {
     const activeTodos = todos.filter(todo => !todo.completed);
     return activeTodos.length;
 }
-
+// Save todos to local storage
+function saveTodos() {
+    localStorage.setItem('todos', JSON.stringify(todos));
+}
 
 updateTodos();
-
 
