@@ -99,7 +99,6 @@ function updateTodos() {
         checkbox.checked = todo.completed;
         checkbox.addEventListener('click', () => {
             toggleTodoCompleted(todo.id);
-
         });
         const span = document.createElement('input');
         span.type = 'text';
@@ -110,12 +109,19 @@ function updateTodos() {
             span.classList.add('focus-style');
             span.focus();
 
-            span.addEventListener("change", function () {
+            span.addEventListener("keydown", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    span.blur();
+                }
+            });
+
+            span.addEventListener("blur", function () {
+                span.classList.remove('focus-style');
                 let value = span.value;
+                console.log(value);
                 edit(value, todo.id);
                 span.setAttribute('readonly', 'readonly');
-                span.classList.remove('focus-style');
-
             });
         });
         const deleteBtn = document.createElement('button');
@@ -138,7 +144,7 @@ function updateTodos() {
 
     function edit(value, id) {
         todos = todos.map(todo => {
-            if (todo.id === id) {
+            if (todo.id === id && value !== '') {
                 return {
                     ...todo,
                     text: value
@@ -149,6 +155,7 @@ function updateTodos() {
             }
         });
         updateTodos();
+        saveTodos();
     }
 
     const activeCount = getActiveCount();
